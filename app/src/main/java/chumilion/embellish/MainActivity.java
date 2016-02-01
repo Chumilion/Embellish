@@ -1,6 +1,7 @@
 package chumilion.embellish;
 
 import android.app.ActionBar;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,11 +16,16 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity
 {
 
     EditText editor;
+    TextView embel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -30,7 +36,10 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         editor = (EditText) findViewById(R.id.editor);
-        editor.setImeOptions(EditorInfo.IME_ACTION_DONE);
+
+        embel = (TextView) findViewById(R.id.embel);
+        Typeface fancy = Typeface.createFromAsset(getAssets(),"fonts/Precious.ttf");
+        embel.setTypeface(fancy);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener()
@@ -48,9 +57,13 @@ public class MainActivity extends AppCompatActivity
     {
         View parent = (View) editor.getParent();
         Log.i("parent", parent.getWidth() + " " + parent.getHeight());
-        RelativeLayout.LayoutParams editorLayoutParams = new RelativeLayout.LayoutParams(parent.getWidth()*3/4, parent.getHeight()*3/4);
-        editorLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+        int margin = Math.min(parent.getWidth()/8, parent.getHeight()/8);
+        RelativeLayout.LayoutParams editorLayoutParams = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        editorLayoutParams.setMargins(margin, margin, margin, 2*margin);
         editor.setLayoutParams(editorLayoutParams);
+        RelativeLayout.LayoutParams embelLayoutParams = (RelativeLayout.LayoutParams) embel.getLayoutParams();
+        embelLayoutParams.setMargins(0, 0, 0, margin - embel.getHeight()/2);
+        embel.setLayoutParams(embelLayoutParams);
     }
 
     @Override
@@ -76,5 +89,46 @@ public class MainActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void embellish(View v)
+    {
+        String name = "Alex Smith";
+        String me = "Emilio";
+        String test = editor.getText() + "";
+
+        //##############################################################
+
+        String greeting = "Dear " + name + ",\n\n";
+
+        String end = "\n\nSincerely,\n" + me;
+
+        //##############################################################
+
+        ArrayList<String> testlist = new ArrayList<>(Arrays.asList(test.split("\n")));
+
+        String body = "";
+
+        String initiator = "I hope this email finds you well. ";
+
+        body += initiator;
+
+        ArrayList<String> buildlist = new ArrayList<>();
+
+        for(String line : testlist)
+        {
+            if(line.charAt(line.length() - 1) != '.')
+            {
+                line += ". ";
+            }
+            buildlist.append(line)
+        }
+
+        testlist = buildlist
+
+        for line in testlist:
+    body += line
+
+        email = greeting + body + end
     }
 }

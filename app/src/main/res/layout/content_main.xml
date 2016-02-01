@@ -17,9 +17,25 @@
     <EditText
         android:id="@+id/editor"
         android:hint="Enter text"
-        android:layout_width="400dp"
-        android:layout_height="600dp"
+        android:textColorHint="#aaaaaa"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="#ffffff"
         android:gravity="start"
-        android:background="#ffffff"
-        android:layout_centerInParent="true"/>
+        android:background="@drawable/back"
+        android:padding="20dp"
+        android:textSize="12pt"/>
+    <Button
+        android:id="@+id/embel"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/round"
+        android:text=" E"
+        android:textStyle="bold"
+        android:textSize="18pt"
+        android:textColor="#ffffff"
+        android:gravity="bottom|left"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="embellish"/>
 </RelativeLayout>
