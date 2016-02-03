@@ -1,8 +1,10 @@
 package chumilion.embellish;
 
 import android.app.ActionBar;
+import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -93,8 +95,21 @@ public class MainActivity extends AppCompatActivity
 
     public void embellish(View v)
     {
-        String name = "Alex Smith";
-        String me = "Emilio";
+        String name = "Joe Smith";
+
+        Cursor c = this.getContentResolver().query(ContactsContract.Profile.CONTENT_URI, null, null, null, null);
+        int count = c.getCount();
+        String[] columnNames = c.getColumnNames();
+        boolean b = c.moveToFirst();
+        int position = c.getPosition();
+        String me = "Bug";
+        if (count == 1 && position == 0) {
+            {
+                me = c.getString(c.getColumnIndex("DISPLAY_NAME"));
+            }
+        }
+        c.close();
+
         String test = editor.getText() + "";
 
         //##############################################################
@@ -117,18 +132,28 @@ public class MainActivity extends AppCompatActivity
 
         for(String line : testlist)
         {
-            if(line.charAt(line.length() - 1) != '.')
+            if(!(line.equals("")))
             {
-                line += ". ";
+                if(line.charAt(line.length() - 1) != '.')
+                {
+                    line += ". ";
+                }
+                if(Character.isLowerCase(line.charAt(0)))
+                {
+                    line = Character.toUpperCase(line.charAt(0)) + line.substring(1);
+                }
+                buildlist.add(line);
             }
-            buildlist.append(line)
         }
 
-        testlist = buildlist
+        testlist = buildlist;
 
-        for line in testlist:
-    body += line
+        for(String line : testlist)
+        {
+            body += line;
+        }
 
-        email = greeting + body + end
+        String email = greeting + body + end;
+        editor.setText(email);
     }
 }
